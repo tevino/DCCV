@@ -45,3 +45,7 @@ or:
 
 	$ d "Thanksgiving Day"
 
+If you do not specify the word to query, DCCV will get word from your clipboard.
+In this case, you just need to:
+
+	$ d

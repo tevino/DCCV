@@ -1,2 +1,4 @@
 *.pyc
 cache.db
+mk_zip.sh
+*.zip

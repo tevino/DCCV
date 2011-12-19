@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 chmod +x ./dccv.py
 current_dir=$(dirname -- $(readlink -f -- "$0")) 

@@ -39,15 +39,15 @@ Chineses are the same:
 
 	$ d 你好
 
-For phrases, for instance 'Thanksgiving Day':
+For phrases are the same, for instance 'Thanksgiving Day':
 
-	$ d "Thanksgiving Day"
+	$ d Thanksgiving Day
 
 or:
 
 	$ d "Thanksgiving Day"
 
-If you do not specify the word to query, DCCV will get word from your clipboard.
-In this case, you just need to:
+If you do not specify what to query, DCCV will get a word from your clipboard.
+In this case, all you need is:
 
 	$ d

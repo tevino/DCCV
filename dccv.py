@@ -69,9 +69,9 @@ def print_result(xml):
 
 if __name__ == "__main__":
     api_url = u"http://dict.cn/ws.php?utf8=true&q="
-    try:
-        word = sys.argv[1]
-    except IndexError:
+    if len(sys.argv) > 1:
+        word = (''.join([w + ' ' for w in sys.argv[1:]])).strip()
+    else:
         word = get_clip()
     cache = cache_mgr.CacheMgr()
     xml_str = cache.get_exp(word)

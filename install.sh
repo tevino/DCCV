@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# -*- coding: UTF-8 -*-
 
 chmod +x ./dccv.py
 current_dir=$(dirname -- $(readlink -f -- "$0")) 

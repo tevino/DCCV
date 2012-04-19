@@ -1,52 +1,36 @@
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 
-import sqlite3
-import shutil
-import os
 import sys
+import shelve
+import os.path
 
 currentdir = sys.path[0]
-cache = currentdir + '/cache.db'
-if not os.path.isfile(cache):
-    orig = cache + '.empty'
-    if os.path.isfile(orig):
-        shutil.copyfile(orig, cache)
-    else:
-        print u'empty cache file does not exist\n please copy a new one(%s) to %s' % (orig, os.getcwd())
-        exit()
+cache_file = os.path.join(currentdir, '.cache.db')
 
 
 class CacheMgr:
     def __init__(self):
-        self.con = sqlite3.connect(cache)
-        self.db = self.con.cursor()
+        self.db = shelve.open(cache_file, 'c')
 
-    def is_word_exist(self, word):
-        assert isinstance(word, unicode)
-        self.db.execute('SELECT COUNT(*) FROM words WHERE word=?', (word,))
-        count = self.db.fetchone()
-        if count > 0:
-            return self.get_exp(word)
-        else:
-            return False
+    def _is_word_exist(self, word):
+        assert isinstance(word, str)
+        return word in self.db
 
     def get_exp(self, word):
-        assert isinstance(word, unicode)
-        self.db.execute('SELECT exp FROM words WHERE word=?', (word,))
-        exp = self.db.fetchone()
-        if exp:
-            exp = exp[0]
-        return exp
+        assert isinstance(word, str)
+        if self._is_word_exist(word):
+            return self.db[word]
+        else:
+            return None
 
     def cache_word(self, word, exp):
-        assert isinstance(word, unicode)
-        assert isinstance(exp, unicode)
-        if self.is_word_exist(word):
+        assert isinstance(word, str)
+        assert isinstance(exp, str)
+        if self._is_word_exist(word):
             return False
         else:
-            self.db.execute('INSERT INTO words VALUES(?,?)', (word, exp,))
-            self.db.fetchone()
+            self.db[word] = exp
 
     def __del__(self):
         self.db.close()
-        self.con.commit()

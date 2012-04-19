@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 
 import urllib
 import sys
@@ -12,17 +12,17 @@ from color import lgreen, dgreen, lwhite, lgreen_s, ed
 
 def get_clip():
     pf = platform.system().upper()
-    if pf.startswith('CYGWIN'):
+    if pf.startswith('LINUX'):
+        clip = os.popen('xsel').read()
+    elif pf.startswith('CYGWIN'):
         with open('/dev/clipboard') as clipboard:
             clip = clipboard.read()
-    # 没人在Windows下用这个吧？
-    #elif pf.startswith('WINDOWS'):
-        #import win32clipboard
-        #win32clipboard.OpenClipboard()
-        #clip = win32clipboard.GetClipboardData()
-        #win32clipboard.CloseClipboard()
-    elif pf.startswith('LINUX'):
-        clip = os.popen('xsel').read()
+    elif pf.startswith('WINDOWS'):
+        # 没人在Windows下用吧？
+        import win32clipboard
+        win32clipboard.OpenClipboard()
+        clip = win32clipboard.GetClipboardData()
+        win32clipboard.CloseClipboard()
     return clip
 
 
@@ -71,21 +71,18 @@ if __name__ == "__main__":
     api_url = u"http://dict.cn/ws.php?utf8=true&q="
     try:
         word = sys.argv[1]
-        if not isinstance(word, unicode):
-            word = word.decode('utf-8')
     except IndexError:
-        word = get_clip().decode('utf-8')
+        word = get_clip()
     cache = cache_mgr.CacheMgr()
-    xml_str = cache.is_word_exist(word)
+    xml_str = cache.get_exp(word)
     if not xml_str:
+        url = api_url + urllib.quote(word)
         try:
-            xml_str = urllib.urlopen(api_url + urllib.quote(word.encode('utf-8'))).read()
+            xml_str = urllib.urlopen(url).read()
         except IOError:
             print u'Please Check the network.'
             exit()
-        if not isinstance(xml_str, unicode):
-            xml_str = xml_str.decode('utf-8')
-    xml = parseString(xml_str.encode('utf-8'))
+    xml = parseString(xml_str)
     if not found_nothing(xml):
         print_result(xml)
         cache.cache_word(word, xml_str)

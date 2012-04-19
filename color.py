@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 
 ed = u'\033[0m'
 

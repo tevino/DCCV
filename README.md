@@ -1,7 +1,6 @@
 DCCV - Dict.Cn Console Version
 ==============================
-Current version: v0.25
-Author: mail2tevin@gmaill.com
+Current version: v0.26
 
 
 Features
@@ -16,15 +15,18 @@ When you query it again, there is no need for the Internet and the speed will go
 
 Depandencies
 ------------
-python 2.5 or upper
-sqlite3
+python 2.3 or upper
 
 For Linux you need xsel to access the clipboard
 
 
 Installation Instructions
 -------------------------
-Run install.sh
+if you use bash:
+    $ sh install.sh
+
+or:
+    you should know what to do with install.sh
 
 
 Usage
